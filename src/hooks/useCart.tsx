@@ -41,7 +41,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       if(!produtoPesquisado)
         throw new Error;
-        
+
       if (cart.findIndex(x => x.id === productId) === -1 && quantidadeEstoque.amount > 0) {
         newValues.push({ ...produtoPesquisado, amount: 1 });
       }
@@ -62,6 +62,9 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
+      if (cart.findIndex(x => x.id === productId))
+        throw new Error;
+
       const newValues = [...cart].filter(x => x.id !== productId);
       setCart(newValues);
       localStorage.setItem('@RocketShoes:cart', JSON.stringify(newValues));
@@ -77,6 +80,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
     amount,
   }: UpdateProductAmount) => {
     try {
+      if(amount < 1)
+        throw new Error;
       // TODO
       const newCart = [...cart];
       const index = newCart.findIndex(x => x.id === productId);
