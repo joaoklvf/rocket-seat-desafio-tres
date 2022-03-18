@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { api } from '../services/api';
 import { Product, Stock } from '../types';
@@ -49,22 +49,22 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         newValues[index].amount++;
       }
       setCart(newValues);
-    } catch (e) {
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(newValues));
+    } catch {
       // TODO
-      toast.error('Não foi possível adicionar o produto');
-      console.log(e)
+      toast.error('Erro na alteração de quantidade do produto');
     }
   };
 
   const removeProduct = (productId: number) => {
     try {
-      const newValues = [...cart];
-      setCart(newValues.filter(x => x.id !== productId));
+      const newValues = [...cart].filter(x => x.id !== productId);
+      setCart(newValues);
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(newValues));
       // TODO
-    } catch (e) {
+    } catch {
       // TODO
-      toast.error('Não foi possível adicionar o produto');
-      console.log(e)
+      toast.error('Erro na remoção do produto');
     }
   };
 
@@ -85,9 +85,10 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
       newCart[index].amount = amount;
       setCart(newCart);
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(newCart));
     } catch {
       // TODO
-      toast.error('Não foi possível atualizar a quantidade')
+      toast.error('Erro na alteração de quantidade do produto');
     }
   };
 
