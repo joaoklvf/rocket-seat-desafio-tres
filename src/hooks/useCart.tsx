@@ -62,7 +62,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
-      if (cart.findIndex(x => x.id === productId))
+      if (cart.findIndex(x => x.id === productId) === -1)
         throw new Error;
 
       const newValues = [...cart].filter(x => x.id !== productId);
