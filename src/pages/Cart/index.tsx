@@ -99,7 +99,7 @@ const Cart = (): JSX.Element => {
                 </div>
               </td>
               <td>
-                <strong>{product.price}</strong>
+                <strong>{cartFormatted[cartFormatted.findIndex(x => x.id === product.id)].subTotal}</strong>
               </td>
               <td>
                 <button
